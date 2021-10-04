@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 19:52:08 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/05 01:52:02 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/05 05:48:44 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*find_executable_file_path(char const *file)
 
 	paths = get_paths(environ);
 	if (!paths)
-		return (NULL);
+		return (NULL); // Todo: Use default paths
 	i = 0;
 	while (paths[i])
 	{

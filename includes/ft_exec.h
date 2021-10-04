@@ -6,14 +6,12 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 19:49:42 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/05 01:47:47 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/05 01:59:04 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_EXEC_H
 # define FT_EXEC_H
-
-# include <unistd.h>
 
 int
 ft_execl(const char *path, const char *arg0, ... /*, (char *)0 */);
