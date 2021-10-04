@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 19:52:08 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/05 06:37:00 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/05 06:40:22 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,13 @@ char	*find_executable_file_path(char const *file)
 	{
 		file_path = join_path(paths[i], file);
 		if (access(file_path, X_OK) == 0)
+		{
+			ft_free_split(paths);
 			return (file_path);
+		}
 		free(file_path);
 		i++;
 	}
+	ft_free_split(paths);
 	return (NULL);
 }
