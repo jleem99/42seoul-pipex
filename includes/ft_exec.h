@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 19:49:42 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/05 01:59:04 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/05 06:36:21 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ ft_execvp(const char *file, char *const argv[]);
 int
 ft_execvP(const char *file, const char *search_path, char *const argv[]);
 
-char	**get_paths(char *const envp[]);
+char	*ft_getenv(const char *name);
+char	**get_paths();
 char	*join_path(char const *s1, char const *s2);
 char	*find_executable_file_path(char const *file);
 

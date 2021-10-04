@@ -6,36 +6,44 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 19:52:08 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/05 05:48:44 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/05 06:37:00 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_exec.h"
 #include "libft_bonus.h"
 #include <stdlib.h>
+#include <paths.h>
 
 extern char **environ;
 
-char	**get_paths(char *const envp[])
+char	*ft_getenv(const char *name)
 {
-	int		i;
-	int		is_path;
-	char	**paths;
-	char	**path_with_trailing_slash;
+	char *const	search_string = ft_strjoin(name, "=");
+	int const	search_len = ft_strlen(search_string);
+	int			i;
 
 	i = 0;
-	while (envp[i])
+	while (environ[i])
 	{
-		is_path = ft_strncmp(envp[i], "PATH=", 5) == 0;
-		if (is_path)
+		if (ft_strncmp(environ[i], search_string, search_len) == 0)
 		{
-			paths = ft_split(envp[i] + 5, ':');
-			return (paths);
+			free(search_string);
+			return (environ[i] + search_len);
 		}
 		i++;
 	}
-	i = 0;
 	return NULL;
+}
+
+char	**get_paths()
+{
+	char	*path_env;
+
+	path_env = ft_getenv("PATH");
+	if (path_env == NULL)
+		path_env = _PATH_DEFPATH;
+	return (ft_split(path_env, ':'));
 }
 
 char	*join_path(char const *s1, char const *s2)
@@ -54,13 +62,10 @@ char	*join_path(char const *s1, char const *s2)
 
 char	*find_executable_file_path(char const *file)
 {
-	int		i;
-	char	**paths;
-	char	*file_path;
+	char **const	paths = get_paths();
+	char			*file_path;
+	int				i;
 
-	paths = get_paths(environ);
-	if (!paths)
-		return (NULL); // Todo: Use default paths
 	i = 0;
 	while (paths[i])
 	{
