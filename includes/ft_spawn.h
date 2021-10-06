@@ -1,21 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_spawn.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/29 01:23:08 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/04 20:26:59 by jleem            ###   ########.fr       */
+/*   Created: 2021/10/06 23:42:50 by jleem             #+#    #+#             */
+/*   Updated: 2021/10/07 00:03:17 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef FT_SPAWN_H
+# define FT_SPAWN_H
 
-# include <fcntl.h>
-# include <unistd.h>
+typedef struct	s_pipe_spawner
+{
+	int			fd_read;
+	int			fd_write;
+	char const	*cmd1;
+	char const	*cmd2;
+}				t_pipe_spawner;
 
-# include "ft_exec.h"
+void			ft_spawn(char const *cmd);
+
+t_pipe_spawner	init_pipe_spawner(char const *cmd1, char const *cmd2);
+void			spawn_pipe_writer(t_pipe_spawner *spawner);
+void			spawn_pipe_reader(t_pipe_spawner *spawner);
+void			spawn_pipe(t_pipe_spawner *spawner);
 
 #endif
