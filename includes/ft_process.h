@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:54:58 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/07 18:05:42 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/07 20:11:03 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,18 @@ typedef union	u_pipe
 
 typedef struct	s_piped_process
 {
+	char const	*command;
+	int			pid;
+	int			status;
 	t_pipe		lpipe;
 	t_pipe		rpipe;
 	int			stdin_dup;
 	int			stdout_dup;
-	char const	*command;
 }				t_piped_process;
 
 void	backup_process_stdio(t_piped_process *process);
 void	pipe_process_stdio(t_piped_process *process);
 void	restore_process_stdio(t_piped_process *process);
+void	inspect_process(t_piped_process *process);
 
 #endif
