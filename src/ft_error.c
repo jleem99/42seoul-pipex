@@ -6,18 +6,16 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 23:42:03 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/07 21:27:44 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/08 08:47:40 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "ft_error.h"
+#include "libft_bonus.h"
 #include <errno.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-extern int errno;
 
 void	handle_invalid_arg(void)
 {
@@ -28,5 +26,8 @@ void	handle_invalid_arg(void)
 void	handle_error(char const *err)
 {
 	perror(err);
-	exit(EXIT_FAILURE);
+	if (ft_strcmp(err, FT_EEXEC) == 0)
+		exit(FT_EXIT_NOCMD);
+	else
+		exit(EXIT_FAILURE);
 }

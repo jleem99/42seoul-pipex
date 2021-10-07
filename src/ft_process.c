@@ -6,47 +6,101 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:51:48 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/08 01:00:55 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/08 08:25:07 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_process.h"
+#include "ft_error.h"
+#include "libft_bonus.h"
 #include <unistd.h>
-#include <sys/wait.h>
+#include <fcntl.h>
+#include <errno.h>
 
-void	backup_process_stdio(t_piped_process *process)
+void	process_backup_stdio(t_process *process)
 {
-	process->stdin_dup = dup(STDIN_FILENO);
-	process->stdout_dup = dup(STDOUT_FILENO);
+	process->stdin_save = dup(STDIN_FILENO);
+	process->stdout_save = dup(STDOUT_FILENO);
 }
 
-void	pipe_process_stdio(t_piped_process *process)
+void	process_pipe_stdio(t_process *process)
 {
-	dup2(process->lpipe.fd_read, STDIN_FILENO);
-	dup2(process->rpipe.fd_write, STDOUT_FILENO);
-	close(process->lpipe.fd_read);
-	close(process->rpipe.fd_write);
+	if (process->lpipe.fd_read > 0)
+	{
+		dup2(process->lpipe.fd_read, STDIN_FILENO);
+		close(process->lpipe.fd_read);
+	}
+	if (process->rpipe.fd_read > 0)
+	{
+		dup2(process->rpipe.fd_write, STDOUT_FILENO);
+		close(process->rpipe.fd_write);
+	}
+	if (process->redirection.fd_in > 0)
+		dup2(process->redirection.fd_in, STDIN_FILENO);
+	if (process->redirection.fd_out > 0)
+		dup2(process->redirection.fd_out, STDOUT_FILENO);
 }
 
-void	restore_process_stdio(t_piped_process *process)
+void	process_restore_stdio(t_process *process)
 {
-	dup2(process->stdin_dup, STDIN_FILENO);
-	dup2(process->stdout_dup, STDOUT_FILENO);
-	close(process->stdin_dup);
-	close(process->stdout_dup);
+	dup2(process->stdin_save, STDIN_FILENO);
+	dup2(process->stdout_save, STDOUT_FILENO);
+	close(process->stdin_save);
+	close(process->stdout_save);
 }
 
-#define A_RESET		"\033[0m"
-#define A_GREEN		"\033[0;92m"
-#define A_BBLUE		"\033[0;94m"
-#include <stdio.h>
-void	inspect_process(t_piped_process *process)
+void	process_close_unused_pipeends(t_process *process)
 {
-	printf(A_BBLUE"lpipe(w:%3d -> r:%3d)"A_RESET" -/-> ",
-		process->lpipe.fd_write, process->lpipe.fd_read);
-	printf(A_GREEN"(pid: %6d | cmd: %10s | exit: %3d | %2d/%2d)"A_RESET" -/-> ",
-		process->pid, process->command, WEXITSTATUS(process->status),
-		process->stdin_dup, process->stdout_dup);
-	printf(A_BBLUE"lpipe(w:%3d -> r:%3d)"A_RESET"\n",
-		process->rpipe.fd_write, process->rpipe.fd_read);
+	close(process->stdin_save);
+	close(process->stdout_save);
+	if (process->rpipe.fd_read > 0)
+		close(process->rpipe.fd_read);
+}
+
+void	init_process(t_process *process, char const *command)
+{
+	char **const	argv = ft_split(command, ' ');
+	char *const		execfile = argv[0];
+
+	ft_bzero(process, sizeof(t_process));
+	process->command = command;
+	process->execfile = execfile;
+	process->argv = argv;
+	process->lpipe.fd_read = -1;
+	process->lpipe.fd_write = -1;
+	process->rpipe.fd_read = -1;
+	process->rpipe.fd_write = -1;
+	process->redirection.fd_in = -1;
+	process->redirection.fd_out = -1;
+	process->stdin_save = -1;
+	process->stdout_save = -1;
+}
+
+void	process_parental_cleanup(t_process *process, int pid)
+{
+	process->pid = pid;
+	ft_free_split((void *)process->argv);
+	if (process->redirection.fd_in > -1)
+		close(process->redirection.fd_in);
+	if (process->redirection.fd_out > -1)
+		close(process->redirection.fd_out);
+	// Todo: free(process);
+}
+
+void	process_redirect_from(t_process *process, char const *infile)
+{
+	int	const	fd_infile = open(infile, O_RDONLY); // Todo: Handle error
+
+	process->redirection.fd_in = fd_infile;
+	if (fd_infile < 0)
+		process->spawn_err = FT_ENOENT;
+}
+
+void	process_redirect_to(t_process *process, char const *outfile)
+{
+	int const	fd_outfile = open(outfile, O_WRONLY | O_CREAT, 0644); // Todo: Handle error
+
+	process->redirection.fd_out = fd_outfile;
+	if (fd_outfile < 0)
+		process->spawn_err = FT_ENOENT;
 }
