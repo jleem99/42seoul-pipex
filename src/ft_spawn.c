@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 23:45:46 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/07 20:17:12 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/08 00:03:59 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,20 @@ void	ft_spawn(t_piped_process *process)
 	ft_free_split(argv);
 }
 
-t_pipe_spawner	*init_pipe_spawner(int n_pipes)
+t_pipe_spawner	*init_pipe_spawner(int n_processes)
 {
+	// Todo: Use t_array for processes / pipes
 	t_pipe_spawner	*spawner;
-	int const		n_processes = n_pipes + 1;
+	int const		n_pipes = n_processes - 1;
 	int				i;
 
 	spawner = malloc(sizeof(t_pipe_spawner));
 	if (!spawner)
 		handle_error(FT_ENOMEM);
-	spawner->pipes = malloc(sizeof(t_pipe) * n_pipes);
-	spawner->n_pipes = n_pipes;
 	spawner->processes = malloc(sizeof(t_piped_process) * n_processes);
 	spawner->n_processes = n_processes;
+	spawner->pipes = malloc(sizeof(t_pipe) * n_pipes);
+	spawner->n_pipes = n_pipes;
 	if (!spawner->pipes || !spawner->processes)
 		handle_error(FT_ENOMEM);
 	i = 0;

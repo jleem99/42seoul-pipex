@@ -6,11 +6,12 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 23:42:03 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/07 17:00:22 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/07 21:27:44 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "ft_error.h"
 #include <errno.h>
 #include <unistd.h>
 #include <stdio.h>

@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 23:42:50 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/07 20:14:50 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/08 01:05:55 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void			free_pipe_spawner(t_pipe_spawner *spawner);
 /* ft_spawner_func.c */
 void			spawner_pipe_command(t_pipe_spawner *spawner,
 					char const *command);
-void			spawner_redirect_from_fd(t_pipe_spawner *spawner,
-					char const *command, int fd_from);
-void			spawner_redirect_to_fd(t_pipe_spawner *spawner,
-					char const *command, int fd_to);
+void			spawner_redirect_from_file(t_pipe_spawner *spawner,
+					char const *command, char const *infile);
+void			spawner_redirect_to_file(t_pipe_spawner *spawner,
+					char const *command, char const *outfile);
 void			spawner_wait_processes(t_pipe_spawner *spawner);
 
 #endif
