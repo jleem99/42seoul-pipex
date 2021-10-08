@@ -6,13 +6,14 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 23:41:37 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 02:33:44 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 03:05:17 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_ERROR_H
 # define FT_ERROR_H
 
+# define PROGRAM_NAME		"pipex"
 # define FT_EFORK			"fork"
 # define FT_EEXEC			"exec"
 # define FT_EPIPE			"pipe"

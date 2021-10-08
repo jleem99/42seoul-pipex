@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 23:42:03 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 02:36:10 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 03:05:08 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 void	handle_error(char const *err)
 {
-	ft_putstr_fd("bash: ", STDERR_FILENO);
+	ft_putstr_fd(PROGRAM_NAME": ", STDERR_FILENO);
 	if (ft_strcmp(err, FT_EINPUT) == 0 || (ft_strcmp(err, FT_EOUTPUT) == 0))
 	{
 		ft_putstr_fd(err, STDERR_FILENO);
@@ -37,14 +37,14 @@ void	handle_exec_error(char const *execfile)
 {
 	if (errno == EACCES)
 	{
-		ft_putstr_fd("bash: ", STDERR_FILENO);
+		ft_putstr_fd(PROGRAM_NAME": ", STDERR_FILENO);
 		ft_putstr_fd(execfile, STDERR_FILENO);
 		ft_putstr_fd(": permission denied\n", STDERR_FILENO);
 		exit(EXIT_FAILURE); // exit(FT_EXIT_NOACCES)
 	}
 	else if (errno == ENOENT)
 	{
-		ft_putstr_fd("bash: ", STDERR_FILENO);
+		ft_putstr_fd(PROGRAM_NAME": ", STDERR_FILENO);
 		ft_putstr_fd(execfile, STDERR_FILENO);
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		exit(FT_EXIT_NOCMD);
