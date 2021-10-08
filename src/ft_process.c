@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:51:48 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/08 08:25:07 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/08 10:01:24 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	process_redirect_from(t_process *process, char const *infile)
 
 void	process_redirect_to(t_process *process, char const *outfile)
 {
-	int const	fd_outfile = open(outfile, O_WRONLY | O_CREAT, 0644); // Todo: Handle error
+	int const	fd_outfile = open(outfile, O_WRONLY | O_TRUNC | O_CREAT, 0644); // Todo: Handle error
 
 	process->redirection.fd_out = fd_outfile;
 	if (fd_outfile < 0)

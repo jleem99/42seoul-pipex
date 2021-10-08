@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 19:52:04 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/05 02:11:51 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/08 09:39:50 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ int ft_execvp(const char *file, char *const argv[])
 	if (ft_strchr(file, '/') != NULL)
         file_path = file;
     else
-        file_path = find_executable_file_path(file);
+        file_path = find_file_path(file, X_OK);
+    if (file_path == NULL)
+        file_path = find_file_path(file, F_OK);
     if (file_path == NULL)
     {
         errno = ENOENT;

@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 23:45:46 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/08 08:36:37 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/08 09:01:18 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	child_routine(t_process *process)
 	if (process->spawn_err)
 		handle_error(process->spawn_err);
 	if (ft_execvp(process->execfile, process->argv) == -1)
-		handle_error(FT_EEXEC);
+		handle_exec_error(process->execfile);
 }
 
 void	ft_spawn(t_process *process)

@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 19:52:08 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/05 06:40:22 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/08 09:17:17 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*join_path(char const *s1, char const *s2)
 	return (joined_path);
 }
 
-char	*find_executable_file_path(char const *file)
+char	*find_file_path(char const *file, int access_mode)
 {
 	char **const	paths = get_paths();
 	char			*file_path;
@@ -70,7 +70,7 @@ char	*find_executable_file_path(char const *file)
 	while (paths[i])
 	{
 		file_path = join_path(paths[i], file);
-		if (access(file_path, X_OK) == 0)
+		if (access(file_path, access_mode) == 0)
 		{
 			ft_free_split(paths);
 			return (file_path);

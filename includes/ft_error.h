@@ -6,21 +6,23 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 23:41:37 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/08 08:44:09 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/08 09:45:43 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_ERROR_H
 # define FT_ERROR_H
 
-# define FT_EFORK		"fork"
-# define FT_EEXEC		"exec"
-# define FT_EPIPE		"pipe"
-# define FT_ENOMEM		"malloc"
-# define FT_ENOENT		"open"
-# define FT_EXIT_NOCMD	127
+# define FT_EFORK			"fork"
+# define FT_EEXEC			"exec"
+# define FT_EPIPE			"pipe"
+# define FT_ENOMEM			"malloc"
+# define FT_ENOENT			"open"
+# define FT_EXIT_NOACCES	126
+# define FT_EXIT_NOCMD		127
 
 void	handle_invalid_arg(void);
 void	handle_error(char const *err);
+void	handle_exec_error(char const *execfile);
 
 #endif
