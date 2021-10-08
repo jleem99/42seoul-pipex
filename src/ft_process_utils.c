@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 04:37:05 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 07:44:26 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 08:02:29 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	process_close_unused_pipeends(t_process *process)
 
 void	inspect_process(t_process *process)
 {
-	if (process->redirection.fd_in > 0)
+	if (process->redirection.fd_in >= 0)
 		printf(A_MAGENTA"     redirection(%3d)"A_RESET" -/-> ",
 			process->redirection.fd_in);
 	else
@@ -72,7 +72,7 @@ void	inspect_process(t_process *process)
 		A_GREEN"(pid: %5d | cmd: %13s | exit: %3d | sig: %2d)"A_RESET" -/-> ",
 		process->pid, process->command,
 		WEXITSTATUS(process->status), WTERMSIG(process->status));
-	if (process->redirection.fd_out > 0)
+	if (process->redirection.fd_out >= 0)
 		printf(A_MAGENTA"redirection(%3d)"A_RESET"\n",
 			process->redirection.fd_out);
 	else
