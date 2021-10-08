@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 01:22:15 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 03:03:17 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 07:20:26 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ char	**parse_command(char const *command)
 	argc = get_argc(command);
 	if (argc < 0)
 	{
-	 	errno = EINVAL;
+		errno = EINVAL;
 		return (ft_split("", '\0'));
 	}
 	argv = ft_calloc(argc + 1, sizeof(char *));

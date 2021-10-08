@@ -6,14 +6,14 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:54:58 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 02:58:08 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 07:26:24 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PROCESS_H
 # define FT_PROCESS_H
 
-typedef union	u_pipe
+typedef union u_pipe
 {
 	int			fildes[2];
 	struct
@@ -23,13 +23,13 @@ typedef union	u_pipe
 	};
 }				t_pipe;
 
-typedef struct	s_redirection
+typedef struct s_redirection
 {
 	int		fd_in;
 	int		fd_out;
-}				t_redirection;
+}			t_redirection;
 
-typedef struct	s_process
+typedef struct s_process
 {
 	char const		*command;
 	char const		*execfile;
@@ -42,7 +42,7 @@ typedef struct	s_process
 	int				stdin_save;
 	int				stdout_save;
 	char const		*spawn_err;
-}				t_process;
+}					t_process;
 
 /* ft_process.c */
 void	init_process(t_process *process, char const *command);

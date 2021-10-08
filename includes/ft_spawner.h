@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 23:42:50 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 03:01:40 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 07:42:39 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,13 @@
 
 # include "ft_process.h"
 
-typedef struct	s_pipe_spawner
+# ifdef DEBUG_PROCESSES
+#  define DEBUG_PROCESSES	1
+# else
+#  define DEBUG_PROCESSES	0
+# endif
+
+typedef struct s_pipe_spawner
 {
 	t_process	*processes;
 	int			n_processes;

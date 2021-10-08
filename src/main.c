@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 01:40:23 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 02:43:56 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 07:48:30 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	pipex(t_parsed_arg *arg)
 	exit(WEXITSTATUS(pipe_exit_status));
 }
 
-int main(int argc, char const *argv[])
+int	main(int argc, char const *argv[])
 {
 	t_parsed_arg	arg;
 

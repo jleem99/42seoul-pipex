@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 19:52:04 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 02:52:29 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 07:29:24 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <errno.h>
 #include <paths.h>
 
-extern char **environ;
+extern char	**environ;
 
 char	*ft_getenv(const char *name)
 {
@@ -35,10 +35,10 @@ char	*ft_getenv(const char *name)
 		}
 		i++;
 	}
-	return NULL;
+	return (NULL);
 }
 
-char	**get_paths()
+char	**get_paths(void)
 {
 	char	*path_env;
 
@@ -50,10 +50,10 @@ char	**get_paths()
 
 char	*join_path(char const *s1, char const *s2)
 {
-	char	*joined_path;
 	int const	s1_len = ft_strlen(s1);
 	int const	s2_len = ft_strlen(s2);
-	
+	char		*joined_path;
+
 	joined_path = malloc(s1_len + s2_len + 2);
 	ft_memcpy(joined_path, s1, s1_len);
 	joined_path[s1_len] = '/';
@@ -84,20 +84,20 @@ char	*find_file_path(char const *file, int access_mode)
 	return (NULL);
 }
 
-int ft_execvp(const char *file, char *const argv[])
+int	ft_execvp(const char *file, char *const argv[])
 {
-    const char  *file_path;
+	char const	*file_path;
 
 	if (ft_strchr(file, '/') != NULL)
-        file_path = file;
-    else
-        file_path = find_file_path(file, X_OK);
-    if (file_path == NULL)
-        file_path = find_file_path(file, F_OK);
-    if (file_path == NULL)
-    {
-        errno = ENOENT;
-        return (-1);
-    }
-    return (execve(file_path, argv, environ));
+		file_path = file;
+	else
+		file_path = find_file_path(file, X_OK);
+	if (file_path == NULL)
+		file_path = find_file_path(file, F_OK);
+	if (file_path == NULL)
+	{
+		errno = ENOENT;
+		return (-1);
+	}
+	return (execve(file_path, argv, environ));
 }

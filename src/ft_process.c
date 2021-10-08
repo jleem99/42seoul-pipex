@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:51:48 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 02:57:04 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 07:47:13 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	process_parental_cleanup(t_process *process, int pid)
 
 void	process_redirect_from(t_process *process, char const *infile)
 {
-	int	const	fd_infile = open(infile, O_RDONLY);
+	int const	fd_infile = open(infile, O_RDONLY);
 
 	process->redirection.fd_in = fd_infile;
 	if (fd_infile < 0)

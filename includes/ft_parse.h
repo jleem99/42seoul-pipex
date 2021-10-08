@@ -6,14 +6,14 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 00:31:50 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 02:51:43 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 07:43:49 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PARSE_H
 # define FT_PARSE_H
 
-typedef struct	s_parsed_arg
+typedef struct s_parsed_arg
 {
 	char const	*infile;
 	char const	*outfile;

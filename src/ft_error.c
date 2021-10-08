@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 23:42:03 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 03:05:08 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 07:48:09 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ void	handle_error(char const *err)
 	exit(EXIT_FAILURE);
 }
 
+/*
+ * Todo: Exit with FT_EXIT_NOACCES when errno == EACCES
+ */
 void	handle_exec_error(char const *execfile)
 {
 	if (errno == EACCES)
@@ -40,7 +43,7 @@ void	handle_exec_error(char const *execfile)
 		ft_putstr_fd(PROGRAM_NAME": ", STDERR_FILENO);
 		ft_putstr_fd(execfile, STDERR_FILENO);
 		ft_putstr_fd(": permission denied\n", STDERR_FILENO);
-		exit(EXIT_FAILURE); // exit(FT_EXIT_NOACCES)
+		exit(EXIT_FAILURE);
 	}
 	else if (errno == ENOENT)
 	{

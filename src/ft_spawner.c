@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 23:45:46 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 03:01:25 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 07:43:20 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,8 @@ void	spawner_wait_processes(t_pipe_spawner *spawner)
 		spawner->processes[i].status = status;
 		i++;
 	}
-#ifdef DEBUG_PROCESSES
-	spawner_inspect_processes(spawner);
-#endif
+	if (DEBUG_PROCESSES)
+		spawner_inspect_processes(spawner);
 }
 
 void	spawner_inspect_processes(t_pipe_spawner *spawner)

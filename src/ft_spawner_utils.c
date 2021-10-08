@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 23:45:46 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 03:02:25 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 07:48:54 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,11 @@ static void	spawner_pipe_processes(t_pipe_spawner *spawner,
 	}
 }
 
+/*
+ * Todo: Use t_array for processes / pipes
+ */
 t_pipe_spawner	*make_pipe_spawner(int n_commands, char *const *commands)
 {
-	// Todo: Use t_array for processes / pipes
 	t_pipe_spawner	*spawner;
 	int const		n_pipes = n_commands - 1;
 	int				i;
