@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 01:40:23 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/08 08:48:28 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 02:15:07 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int main(int argc, char const *argv[])
 
 	arg = parse_arg(argc, argv);
 	if (arg.commands == NULL)
-		handle_invalid_arg();
+		handle_error(FT_EINVLARG);
 	else
 		pipex(&arg);
 	return (0);

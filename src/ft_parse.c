@@ -6,18 +6,20 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 00:31:43 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/08 07:31:25 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 01:22:36 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_parse.h"
 #include "libft_bonus.h"
+#include <errno.h>
 
 static t_parsed_arg	parsed_arg_null(void)
 {
 	t_parsed_arg	parsed_arg;
 
 	ft_bzero(&parsed_arg, sizeof(t_parsed_arg));
+	errno = EINVAL;
 	return (parsed_arg);
 }
 

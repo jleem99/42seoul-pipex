@@ -6,12 +6,13 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:51:48 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/08 10:10:11 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 02:34:14 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_process.h"
 #include "ft_error.h"
+#include "ft_parse.h"
 #include "libft_bonus.h"
 #include <unistd.h>
 #include <fcntl.h>
@@ -57,12 +58,15 @@ void	process_close_unused_pipeends(t_process *process)
 		close(process->rpipe.fd_read);
 }
 
+#include <stdio.h>
 void	init_process(t_process *process, char const *command)
 {
-	char **const	argv = ft_split(command, ' ');
+	char **const	argv = parse_command(command);
 	char *const		execfile = argv[0];
 
 	ft_bzero(process, sizeof(t_process));
+	if (execfile == NULL)
+		process->spawn_err = FT_EINVLCMD;
 	process->command = command;
 	process->execfile = execfile;
 	process->argv = argv;
@@ -84,7 +88,6 @@ void	process_parental_cleanup(t_process *process, int pid)
 		close(process->redirection.fd_in);
 	if (process->redirection.fd_out > -1)
 		close(process->redirection.fd_out);
-	// Todo: free(process);
 }
 
 void	process_redirect_from(t_process *process, char const *infile)
@@ -93,7 +96,7 @@ void	process_redirect_from(t_process *process, char const *infile)
 
 	process->redirection.fd_in = fd_infile;
 	if (fd_infile < 0)
-		process->spawn_err = FT_ENOENT;
+		process->spawn_err = FT_EINPUT;
 }
 
 void	process_redirect_to(t_process *process, char const *outfile)
@@ -102,5 +105,5 @@ void	process_redirect_to(t_process *process, char const *outfile)
 
 	process->redirection.fd_out = fd_outfile;
 	if (fd_outfile < 0)
-		process->spawn_err = FT_ENOENT;
+		process->spawn_err = FT_EOUTPUT;
 }
