@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 23:45:46 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 01:23:37 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 03:02:25 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,23 @@ void	ft_spawn(t_process *process)
 		process_parental_cleanup(process, pid);
 }
 
+static void	spawner_pipe_processes(t_pipe_spawner *spawner,
+	char *const *commands)
+{
+	int	i;
+
+	i = 0;
+	while (i < spawner->n_processes)
+	{
+		init_process(&spawner->processes[i], commands[i]);
+		if (i != 0)
+			spawner->processes[i].lpipe = spawner->pipes[i - 1];
+		if (i != spawner->n_processes - 1)
+			spawner->processes[i].rpipe = spawner->pipes[i];
+		i++;
+	}
+}
+
 t_pipe_spawner	*make_pipe_spawner(int n_commands, char *const *commands)
 {
 	// Todo: Use t_array for processes / pipes
@@ -58,16 +75,7 @@ t_pipe_spawner	*make_pipe_spawner(int n_commands, char *const *commands)
 	i = 0;
 	while (i < spawner->n_pipes)
 		pipe(spawner->pipes[i++].fildes);
-	i = 0;
-	while (i < spawner->n_processes)
-	{
-		init_process(&spawner->processes[i], commands[i]);
-		if (i != 0)
-			spawner->processes[i].lpipe = spawner->pipes[i - 1];
-		if (i != spawner->n_processes - 1)
-			spawner->processes[i].rpipe = spawner->pipes[i];
-		i++;
-	}
+	spawner_pipe_processes(spawner, commands);
 	return (spawner);
 }
 

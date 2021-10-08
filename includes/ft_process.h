@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:54:58 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/08 07:27:16 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 02:58:08 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,16 @@ typedef struct	s_process
 }				t_process;
 
 /* ft_process.c */
+void	init_process(t_process *process, char const *command);
+void	process_parental_cleanup(t_process *process, int pid);
+void	process_redirect_from(t_process *process, char const *infile);
+void	process_redirect_to(t_process *process, char const *outfile);
+
+/* ft_process_utils.c */
 void	process_backup_stdio(t_process *process);
 void	process_restore_stdio(t_process *process);
 void	process_pipe_stdio(t_process *process);
 void	process_close_unused_pipeends(t_process *process);
-void	process_redirect_from(t_process *process, char const *infile);
-void	process_redirect_to(t_process *process, char const *outfile);
-void	process_parental_cleanup(t_process *process, int pid);
-void	init_process(t_process *process, char const *command);
-
-/* ft_process_utils.c */
 void	inspect_process(t_process *process);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 01:22:15 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 02:15:00 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 03:03:17 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,33 +18,6 @@
 #define RET_PARSE_DONE_ARG		1
 #define RET_PARSE_DONE_NOARG	0
 #define RET_PARSE_ERROR			-1
-
-/*
- * Finds next arg from str.
- * This function passes arg's start(inclusive), end(exclusive) pointer-
- * through argument. (char const **start, char const **end)
- *
- * [return values]
- *  2: Parsing undone
- *  1: Parsing done (Args were parsed in this call)
- *  0: Parsing done (No args were parsed in this call)
- * -1: Parsing error
- */
-int	find_next_arg(char const *str, char const **start, char const **end)
-{
-	char	quote;
-	int		i;
-
-	i = 0;
-	while (str[i] == ' ')
-		i++;
-	if (str[i] == '\0')
-		return (RET_PARSE_DONE_NOARG);
-	else if (str[i] == '\'' || str[i] == '"')
-		return (find_next_arg_quoted(&str[i + 1], start, end, str[i]));
-	else
-		return (find_next_arg_spaced(&str[i], start, end));
-}
 
 static int	find_next_arg_quoted(char const *str_start,
 	char const **start, char const **end, char quote)
@@ -82,7 +55,33 @@ static int	find_next_arg_spaced(char const *str_start,
 	}
 }
 
-int	get_argc(char const *command)
+/*
+ * Finds next arg from str.
+ * This function passes arg's start(inclusive), end(exclusive) pointer-
+ * through argument. (char const **start, char const **end)
+ *
+ * [return values]
+ *  2: Parsing undone
+ *  1: Parsing done (Args were parsed in this call)
+ *  0: Parsing done (No args were parsed in this call)
+ * -1: Parsing error
+ */
+static int	find_next_arg(char const *str, char const **start, char const **end)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] == ' ')
+		i++;
+	if (str[i] == '\0')
+		return (RET_PARSE_DONE_NOARG);
+	else if (str[i] == '\'' || str[i] == '"')
+		return (find_next_arg_quoted(&str[i + 1], start, end, str[i]));
+	else
+		return (find_next_arg_spaced(&str[i], start, end));
+}
+
+static int	get_argc(char const *command)
 {
 	char const	*arg_start;
 	char const	*arg_end;
@@ -104,7 +103,7 @@ int	get_argc(char const *command)
 		return (argc);
 }
 
-char	**parse_command(char const *command) // Todo: Handle empty command
+char	**parse_command(char const *command)
 {
 	char const	*arg_start;
 	char const	*arg_end;
@@ -113,12 +112,12 @@ char	**parse_command(char const *command) // Todo: Handle empty command
 	int			i;
 
 	if (command[0] == '\0')
-		return (ft_split("", NULL));
+		return (ft_split("", '\0'));
 	argc = get_argc(command);
 	if (argc < 0)
 	{
 	 	errno = EINVAL;
-		return (ft_split("", NULL));
+		return (ft_split("", '\0'));
 	}
 	argv = ft_calloc(argc + 1, sizeof(char *));
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 23:45:46 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/08 07:29:46 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 03:01:25 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,21 @@ void	spawner_wait_processes(t_pipe_spawner *spawner)
 	{
 		waitpid(spawner->processes[i].pid, &status, 0);
 		spawner->processes[i].status = status;
+		i++;
+	}
+#ifdef DEBUG_PROCESSES
+	spawner_inspect_processes(spawner);
+#endif
+}
+
+void	spawner_inspect_processes(t_pipe_spawner *spawner)
+{
+	int	i;
+
+	i = 0;
+	while (i < spawner->n_processes)
+	{
+		inspect_process(&spawner->processes[i]);
 		i++;
 	}
 }

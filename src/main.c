@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 01:40:23 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 02:15:07 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 02:43:56 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ void	pipex(t_parsed_arg *arg)
 	process_redirect_to(last_process, arg->outfile);
 	spawner_spawn_processes(spawner);
 	spawner_wait_processes(spawner);
-	// for (int i = 0; i < spawner->n_processes; i++)
-	// 	inspect_process(&spawner->processes[i]);
 	pipe_exit_status = last_process->status;
 	free_pipe_spawner(spawner);
 	exit(WEXITSTATUS(pipe_exit_status));

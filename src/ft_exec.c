@@ -6,59 +6,83 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 19:52:04 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/08 23:33:18 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 02:52:29 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_exec.h"
-#include "libft.h"
+#include "libft_bonus.h"
 #include <unistd.h>
+#include <stdlib.h>
 #include <errno.h>
+#include <paths.h>
 
 extern char **environ;
-extern int  errno;
 
-// v => argument vector (array)
-// l => argument location (variadic)
-// p => search for path (when file name does not contain slash)
-// e => specify env / otherwise use extern environ
+char	*ft_getenv(const char *name)
+{
+	char *const	search_string = ft_strjoin(name, "=");
+	int const	search_len = ft_strlen(search_string);
+	int			i;
 
-// execv
-// execv e *
-// execv p
-// execv P (override path with given argument)
+	i = 0;
+	while (environ[i])
+	{
+		if (ft_strncmp(environ[i], search_string, search_len) == 0)
+		{
+			free(search_string);
+			return (environ[i] + search_len);
+		}
+		i++;
+	}
+	return NULL;
+}
 
-// evecl
-// execl e
-// execl p
+char	**get_paths()
+{
+	char	*path_env;
 
-// int
-//      execl(const char *path, const char *arg0, ... /*, (char *)0 */);
+	path_env = ft_getenv("PATH");
+	if (path_env == NULL)
+		path_env = _PATH_DEFPATH;
+	return (ft_split(path_env, ':'));
+}
 
-//      int
-//      execle(const char *path, const char *arg0, ...
-//          /*, (char *)0, char *const envp[] */);
+char	*join_path(char const *s1, char const *s2)
+{
+	char	*joined_path;
+	int const	s1_len = ft_strlen(s1);
+	int const	s2_len = ft_strlen(s2);
+	
+	joined_path = malloc(s1_len + s2_len + 2);
+	ft_memcpy(joined_path, s1, s1_len);
+	joined_path[s1_len] = '/';
+	ft_memcpy(joined_path + s1_len + 1, s2, s2_len);
+	joined_path[s1_len + s2_len + 1] = '\0';
+	return (joined_path);
+}
 
-//      int
-//      execlp(const char *file, const char *arg0, ... /*, (char *)0 */);
+char	*find_file_path(char const *file, int access_mode)
+{
+	char **const	paths = get_paths();
+	char			*file_path;
+	int				i;
 
-//      int
-//      execv(const char *path, char *const argv[]);
-
-//      int
-//      execvp(const char *file, char *const argv[]);
-
-//      int
-//      execvP(const char *file, const char *search_path, char *const argv[]);
-
-// The functions execlp(), execvp(), and execvP() will duplicate the actions of
-// the shell in searching for an executable file if the specified file name
-// does not contain a slash ``/'' character.  For execlp() and execvp(), search
-// path is the path specified in the environment by ``PATH'' variable.  If this
-// variable is not specified, the default path is set according to the
-// _PATH_DEFPATH definition in <paths.h>, which is set to ``/usr/bin:/bin''.
-// For execvP(), the search path is specified as an argument to the function.
-// In addition, certain errors are treated specially.
+	i = 0;
+	while (paths[i])
+	{
+		file_path = join_path(paths[i], file);
+		if (access(file_path, access_mode) == 0)
+		{
+			ft_free_split(paths);
+			return (file_path);
+		}
+		free(file_path);
+		i++;
+	}
+	ft_free_split(paths);
+	return (NULL);
+}
 
 int ft_execvp(const char *file, char *const argv[])
 {

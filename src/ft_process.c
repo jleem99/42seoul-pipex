@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:51:48 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 02:34:14 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 02:57:04 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,51 +14,8 @@
 #include "ft_error.h"
 #include "ft_parse.h"
 #include "libft_bonus.h"
-#include <unistd.h>
 #include <fcntl.h>
-#include <errno.h>
 
-void	process_backup_stdio(t_process *process)
-{
-	process->stdin_save = dup(STDIN_FILENO);
-	process->stdout_save = dup(STDOUT_FILENO);
-}
-
-void	process_pipe_stdio(t_process *process)
-{
-	if (process->lpipe.fd_read != -1)
-	{
-		dup2(process->lpipe.fd_read, STDIN_FILENO);
-		close(process->lpipe.fd_read);
-	}
-	if (process->rpipe.fd_read != -1)
-	{
-		dup2(process->rpipe.fd_write, STDOUT_FILENO);
-		close(process->rpipe.fd_write);
-	}
-	if (process->redirection.fd_in != -1)
-		dup2(process->redirection.fd_in, STDIN_FILENO);
-	if (process->redirection.fd_out != -1)
-		dup2(process->redirection.fd_out, STDOUT_FILENO);
-}
-
-void	process_restore_stdio(t_process *process)
-{
-	dup2(process->stdin_save, STDIN_FILENO);
-	dup2(process->stdout_save, STDOUT_FILENO);
-	close(process->stdin_save);
-	close(process->stdout_save);
-}
-
-void	process_close_unused_pipeends(t_process *process)
-{
-	close(process->stdin_save);
-	close(process->stdout_save);
-	if (process->rpipe.fd_read != -1)
-		close(process->rpipe.fd_read);
-}
-
-#include <stdio.h>
 void	init_process(t_process *process, char const *command)
 {
 	char **const	argv = parse_command(command);
@@ -92,7 +49,7 @@ void	process_parental_cleanup(t_process *process, int pid)
 
 void	process_redirect_from(t_process *process, char const *infile)
 {
-	int	const	fd_infile = open(infile, O_RDONLY); // Todo: Handle error
+	int	const	fd_infile = open(infile, O_RDONLY);
 
 	process->redirection.fd_in = fd_infile;
 	if (fd_infile < 0)
@@ -101,7 +58,7 @@ void	process_redirect_from(t_process *process, char const *infile)
 
 void	process_redirect_to(t_process *process, char const *outfile)
 {
-	int const	fd_outfile = open(outfile, O_WRONLY | O_TRUNC | O_CREAT, 0644); // Todo: Handle error
+	int const	fd_outfile = open(outfile, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 
 	process->redirection.fd_out = fd_outfile;
 	if (fd_outfile < 0)
