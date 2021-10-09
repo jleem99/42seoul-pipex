@@ -6,13 +6,13 @@
 #    By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 23:28:03 by jleem             #+#    #+#              #
-#    Updated: 2021/10/09 14:32:08 by jleem            ###   ########.fr        #
+#    Updated: 2021/10/09 14:34:23 by jleem            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC				?= clang
 
-WFLAGS			= -Wall -Wextra #-Werror
+WFLAGS			= -Wall -Wextra -Werror
 INCFLAGS		= -I$(INCDIR) -I$(LIBFTDIR) -I$(GNLDIR)
 CFLAGS_			= $(WFLAGS) $(INCFLAGS) $(CFLAGS)
 unexport CFLAGS_
