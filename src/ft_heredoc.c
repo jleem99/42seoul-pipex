@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 08:13:30 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 12:21:52 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 14:05:48 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*heredoc(char const *limiter)
 	{
 		write(STDOUT_FILENO, "heredoc> ", 10);
 		gnl_ret = get_next_line(STDIN_FILENO, &line);
-		if (ft_strcmp(line, limiter) == 0 || line[0] == '\0')
+		if (ft_strcmp(line, limiter) == 0 || gnl_ret == 0)
 		{
 			free(line);
 			break ;
@@ -74,18 +74,12 @@ int	get_heredoc_writer(char const *limiter)
 	heredoc_buffer = heredoc(limiter);
 	writer_pid = fork();
 	if (writer_pid < 0)
-	{
 		handle_error(FT_EHEREDOC);
-	}
 	else if (writer_pid == 0)
-	{
 		heredoc_writer(pipe_fildes, heredoc_buffer);
-	}
 	else
-	{
-		if (DEBUG_PROCESSES)
-			printf(A_BCYAN"heredoc(writer_pid: %5d)"A_RESET"\n", writer_pid);
 		close(pipe_fildes[1]);
-	}
+	if (DEBUG_PROCESSES)
+		printf(A_BCYAN"heredoc(writer_pid: %5d)"A_RESET"\n", writer_pid);
 	return (pipe_fildes[0]);
 }
