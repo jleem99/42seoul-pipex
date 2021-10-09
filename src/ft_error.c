@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 23:42:03 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 07:48:09 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 09:19:33 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,15 @@
 void	handle_error(char const *err)
 {
 	ft_putstr_fd(PROGRAM_NAME": ", STDERR_FILENO);
-	if (ft_strcmp(err, FT_EINPUT) == 0 || (ft_strcmp(err, FT_EOUTPUT) == 0))
+	if (ft_strcmp(err, FT_EINPUT) == 0 || ft_strcmp(err, FT_EOUTPUT) == 0)
 	{
 		ft_putstr_fd(err, STDERR_FILENO);
 		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+	}
+	else if (ft_strcmp(err, FT_EHEREDOC) == 0)
+	{
+		ft_putstr_fd(err, STDERR_FILENO);
+		ft_putstr_fd(": Error initializing heredoc\n", STDERR_FILENO);
 	}
 	else
 	{

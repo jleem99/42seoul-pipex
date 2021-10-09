@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:51:48 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 07:47:13 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 11:55:59 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	process_parental_cleanup(t_process *process, int pid)
 		close(process->redirection.fd_out);
 }
 
-void	process_redirect_from(t_process *process, char const *infile)
+void	process_redirect_from_file(t_process *process, char const *infile)
 {
 	int const	fd_infile = open(infile, O_RDONLY);
 
@@ -56,9 +56,19 @@ void	process_redirect_from(t_process *process, char const *infile)
 		process->spawn_err = FT_EINPUT;
 }
 
-void	process_redirect_to(t_process *process, char const *outfile)
+void	process_redirect_to_file(t_process *process, char const *outfile)
 {
 	int const	fd_outfile = open(outfile, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+
+	process->redirection.fd_out = fd_outfile;
+	if (fd_outfile < 0)
+		process->spawn_err = FT_EOUTPUT;
+}
+
+void	process_redirect_to_file_append(t_process *process,
+			char const *outfile)
+{
+	int const	fd_outfile = open(outfile, O_WRONLY | O_APPEND | O_CREAT, 0644);
 
 	process->redirection.fd_out = fd_outfile;
 	if (fd_outfile < 0)

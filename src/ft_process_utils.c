@@ -6,14 +6,14 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 04:37:05 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 08:02:29 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 11:30:05 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_process.h"
 #include <sys/wait.h>
-#include <stdio.h>
 #include <unistd.h>
+#include <stdio.h>
 
 void	process_backup_stdio(t_process *process)
 {
@@ -58,12 +58,12 @@ void	process_close_unused_pipeends(t_process *process)
 #define A_RESET		"\033[0m"
 #define A_GREEN		"\033[0;92m"
 #define A_BBLUE		"\033[0;94m"
-#define A_MAGENTA	"\033[0;35m"
+#define A_BMAGENTA	"\033[0;95m"
 
 void	inspect_process(t_process *process)
 {
 	if (process->redirection.fd_in >= 0)
-		printf(A_MAGENTA"     redirection(%3d)"A_RESET" -/-> ",
+		printf(A_BMAGENTA"     redirection(%3d)"A_RESET" -/-> ",
 			process->redirection.fd_in);
 	else
 		printf(A_BBLUE"lpipe(w:%3d -> r:%3d)"A_RESET" -/-> ",
@@ -73,7 +73,7 @@ void	inspect_process(t_process *process)
 		process->pid, process->command,
 		WEXITSTATUS(process->status), WTERMSIG(process->status));
 	if (process->redirection.fd_out >= 0)
-		printf(A_MAGENTA"redirection(%3d)"A_RESET"\n",
+		printf(A_BMAGENTA"redirection(%3d)"A_RESET"\n",
 			process->redirection.fd_out);
 	else
 		printf(A_BBLUE"lpipe(w:%3d -> r:%3d)"A_RESET"\n",

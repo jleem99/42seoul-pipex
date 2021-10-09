@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 23:41:37 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 03:05:17 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 09:17:51 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define FT_EOUTPUT			"output"
 # define FT_EINVLARG		"parse arg"
 # define FT_EINVLCMD		"parse cmd"
+# define FT_EHEREDOC		"heredoc"
 # define FT_EXIT_NOACCES	126
 # define FT_EXIT_NOCMD		127
 # define FT_EXIT_UREACHBL	1
