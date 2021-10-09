@@ -6,7 +6,7 @@
 #    By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 23:28:03 by jleem             #+#    #+#              #
-#    Updated: 2021/10/09 09:59:50 by jleem            ###   ########.fr        #
+#    Updated: 2021/10/09 14:32:08 by jleem            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,11 @@ SRCDIR			= src
 INCDIR			= includes
 OBJDIR			= build
 
-SRCS			= $(wildcard $(SRCDIR)/*.c)
+SRCS			= $(patsubst %, $(SRCDIR)/%, main.c \
+					ft_error.c ft_exec.c ft_heredoc.c \
+					ft_parse_command.c ft_parse.c \
+					ft_process.c ft_process_utils.c \
+					ft_spawner.c ft_spawner_utils.c)
 OBJS			= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 
 LIBFT			= $(LIBFTDIR)/libft.a
