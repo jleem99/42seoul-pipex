@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 08:13:56 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 10:52:22 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 12:23:50 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,6 @@
 #  define DEBUG_PROCESSES	0
 # endif
 
-int		init_heredoc(char const *limiter);
+int		get_heredoc_writer(char const *limiter);
 
 #endif

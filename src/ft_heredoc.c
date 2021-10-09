@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 08:13:30 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 11:33:37 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 12:21:52 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*append_and_free_line(char *buffer, char *line)
 	return (new_buffer);
 }
 
-static void	heredoc(char const *limiter, int fd_write)
+static char	*heredoc(char const *limiter)
 {
 	char	*buffer;
 	char	*line;
@@ -50,35 +50,42 @@ static void	heredoc(char const *limiter, int fd_write)
 	}
 	if (gnl_ret < 0)
 		handle_error(FT_EHEREDOC);
-	write(fd_write, buffer, ft_strlen(buffer));
-	close(fd_write);
+	return (buffer);
 }
 
-#define ANSI_BRIGHT_CYAN		"\033[0;96m"
-#define ANSI_RESET				"\033[0m"
-
-int	init_heredoc(char const *limiter)
+void	heredoc_writer(int *pipe_fildes, char *buffer)
 {
-	int		pid;
-	int		fildes[2];
+	close(pipe_fildes[0]);
+	write(pipe_fildes[1], buffer, ft_strlen(buffer));
+	close(pipe_fildes[1]);
+	exit(EXIT_SUCCESS);
+}
 
-	pipe(fildes);
-	pid = fork();
-	if (pid < 0)
+#define A_BCYAN		"\033[0;96m"
+#define A_RESET		"\033[0m"
+
+int	get_heredoc_writer(char const *limiter)
+{
+	int		writer_pid;
+	int		pipe_fildes[2];
+	char	*heredoc_buffer;
+
+	pipe(pipe_fildes);
+	heredoc_buffer = heredoc(limiter);
+	writer_pid = fork();
+	if (writer_pid < 0)
 	{
 		handle_error(FT_EHEREDOC);
 	}
-	else if (pid == 0)
+	else if (writer_pid == 0)
 	{
-		close(fildes[0]);
-		heredoc(limiter, fildes[1]);
-		exit(EXIT_SUCCESS);
+		heredoc_writer(pipe_fildes, heredoc_buffer);
 	}
 	else
 	{
 		if (DEBUG_PROCESSES)
-			printf(ANSI_BRIGHT_CYAN"heredoc(pid: %5d)"ANSI_RESET"\n", pid);
-		close(fildes[1]);
+			printf(A_BCYAN"heredoc(writer_pid: %5d)"A_RESET"\n", writer_pid);
+		close(pipe_fildes[1]);
 	}
-	return (fildes[0]);
+	return (pipe_fildes[0]);
 }

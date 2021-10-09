@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 01:40:23 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 11:52:33 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 12:25:46 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	pipex(t_parsed_arg *arg)
 	last_process = &spawner->processes[spawner->n_processes - 1];
 	if (arg->is_heredoc)
 	{
-		first_process->redirection.fd_in = init_heredoc(arg->heredoc_limiter);
+		first_process->redirection.fd_in
+			= get_heredoc_writer(arg->heredoc_limiter);
 		process_redirect_to_file_append(last_process, arg->outfile);
 	}
 	else
