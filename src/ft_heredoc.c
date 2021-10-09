@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 08:13:30 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 14:05:48 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/09 14:33:02 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "get_next_line.h"
 #include "libft_bonus.h"
 #include "ft_error.h"
+#include "ft_spawner.h"
 #include <fcntl.h>
 #include <stdio.h>
 
