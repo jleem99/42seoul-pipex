@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 04:37:05 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 11:30:05 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/10 12:52:21 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	process_pipe_stdio(t_process *process)
 		dup2(process->lpipe.fd_read, STDIN_FILENO);
 		close(process->lpipe.fd_read);
 	}
-	if (process->rpipe.fd_read != -1)
+	if (process->rpipe.fd_write != -1)
 	{
 		dup2(process->rpipe.fd_write, STDOUT_FILENO);
 		close(process->rpipe.fd_write);
@@ -69,9 +69,9 @@ void	inspect_process(t_process *process)
 		printf(A_BBLUE"lpipe(w:%3d -> r:%3d)"A_RESET" -/-> ",
 			process->lpipe.fd_write, process->lpipe.fd_read);
 	printf(
-		A_GREEN"(pid: %5d | cmd: %13s | exit: %3d | sig: %2d)"A_RESET" -/-> ",
+		A_GREEN"(pid: %5d | cmd: %50s | exit: %3d | sig: %2d)"A_RESET" -/-> ",
 		process->pid, process->command,
-		WEXITSTATUS(process->status), WTERMSIG(process->status));
+		WEXITSTATUS(process->exit_status), WTERMSIG(process->exit_status));
 	if (process->redirection.fd_out >= 0)
 		printf(A_BMAGENTA"redirection(%3d)"A_RESET"\n",
 			process->redirection.fd_out);

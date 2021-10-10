@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 23:45:46 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 07:43:20 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/10 12:48:23 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	spawner_wait_processes(t_pipe_spawner *spawner)
 	while (i < spawner->n_processes)
 	{
 		waitpid(spawner->processes[i].pid, &status, 0);
-		spawner->processes[i].status = status;
+		spawner->processes[i].exit_status = status;
 		i++;
 	}
 	if (DEBUG_PROCESSES)

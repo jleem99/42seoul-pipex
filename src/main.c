@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 01:40:23 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 12:25:46 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/10 12:41:33 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	pipex(t_parsed_arg *arg)
 	}
 	spawner_spawn_processes(spawner);
 	spawner_wait_processes(spawner);
-	pipe_exit_status = last_process->status;
+	pipe_exit_status = last_process->exit_status;
 	free_pipe_spawner(spawner);
 	exit(WEXITSTATUS(pipe_exit_status));
 }

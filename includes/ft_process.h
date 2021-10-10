@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:54:58 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 11:53:40 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/10 12:41:40 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_process
 	char const		*execfile;
 	char *const		*argv;
 	int				pid;
-	int				status;
+	int				exit_status;
 	t_pipe			lpipe;
 	t_pipe			rpipe;
 	t_redirection	redirection;
