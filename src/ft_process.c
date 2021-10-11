@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:51:48 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 11:55:59 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/11 22:55:42 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ void	init_process(t_process *process, char const *command)
 	process->rpipe.fd_write = -1;
 	process->redirection.fd_in = -1;
 	process->redirection.fd_out = -1;
-	process->stdin_save = -1;
-	process->stdout_save = -1;
 }
 
 void	process_parental_cleanup(t_process *process, int pid)
 {
 	process->pid = pid;
+	close(process->lpipe.fd_read);
+	close(process->rpipe.fd_write);
 	ft_free_split((void *)process->argv);
 	if (process->redirection.fd_in > -1)
 		close(process->redirection.fd_in);

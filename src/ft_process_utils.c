@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 04:37:05 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/10 12:52:21 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/11 22:55:51 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,6 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <stdio.h>
-
-void	process_backup_stdio(t_process *process)
-{
-	process->stdin_save = dup(STDIN_FILENO);
-	process->stdout_save = dup(STDOUT_FILENO);
-}
-
-void	process_restore_stdio(t_process *process)
-{
-	dup2(process->stdin_save, STDIN_FILENO);
-	dup2(process->stdout_save, STDOUT_FILENO);
-	close(process->stdin_save);
-	close(process->stdout_save);
-}
 
 void	process_pipe_stdio(t_process *process)
 {
@@ -49,8 +35,6 @@ void	process_pipe_stdio(t_process *process)
 
 void	process_close_unused_pipeends(t_process *process)
 {
-	close(process->stdin_save);
-	close(process->stdout_save);
 	if (process->rpipe.fd_read != -1)
 		close(process->rpipe.fd_read);
 }

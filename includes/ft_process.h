@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:54:58 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/10 12:41:40 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/11 22:57:11 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ typedef struct s_process
 	t_pipe			lpipe;
 	t_pipe			rpipe;
 	t_redirection	redirection;
-	int				stdin_save;
-	int				stdout_save;
 	char const		*spawn_err;
 }					t_process;
 
@@ -53,8 +51,6 @@ void	process_redirect_to_file_append(t_process *process,
 			char const *outfile);
 
 /* ft_process_utils.c */
-void	process_backup_stdio(t_process *process);
-void	process_restore_stdio(t_process *process);
 void	process_pipe_stdio(t_process *process);
 void	process_close_unused_pipeends(t_process *process);
 void	inspect_process(t_process *process);

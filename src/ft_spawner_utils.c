@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 23:45:46 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 07:48:54 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/10 13:08:29 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 static void	child_routine(t_process *process)
 {
+	process_pipe_stdio(process);
 	process_close_unused_pipeends(process);
 	if (process->spawn_err)
 		handle_error(process->spawn_err);
