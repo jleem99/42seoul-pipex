@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 08:13:30 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 14:33:02 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/12 09:54:17 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static char	*append_and_free_line(char *buffer, char *line)
 	char *const	line_with_newline = ft_strjoin(line, "\n");
 	char *const	new_buffer = ft_strjoin(buffer, line_with_newline);
 
+	if (!line_with_newline || !new_buffer)
+		handle_error(FT_ENOMEM);
 	free(line_with_newline);
 	free(buffer);
 	free(line);
@@ -36,6 +38,8 @@ static char	*heredoc(char const *limiter)
 	int		gnl_ret;
 
 	buffer = ft_strdup("");
+	if (!buffer)
+		handle_error(FT_ENOMEM);
 	line = NULL;
 	gnl_ret = 1;
 	while (gnl_ret > 0)
@@ -71,7 +75,8 @@ int	get_heredoc_writer(char const *limiter)
 	int		pipe_fildes[2];
 	char	*heredoc_buffer;
 
-	pipe(pipe_fildes);
+	if (pipe(pipe_fildes) == -1)
+		handle_error(FT_EPIPE);
 	heredoc_buffer = heredoc(limiter);
 	writer_pid = fork();
 	if (writer_pid < 0)

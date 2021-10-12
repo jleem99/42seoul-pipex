@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:51:48 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/11 22:55:42 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/12 09:46:51 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,13 @@
 void	init_process(t_process *process, char const *command)
 {
 	char **const	argv = parse_command(command);
-	char *const		execfile = argv[0];
+	char			*execfile;
 
+	execfile = NULL;
+	if (!argv)
+		handle_error(FT_ENOMEM);
+	else
+		execfile = argv[0];
 	ft_bzero(process, sizeof(t_process));
 	if (execfile == NULL)
 		process->spawn_err = FT_EINVLCMD;
@@ -51,18 +56,20 @@ void	process_redirect_from_file(t_process *process, char const *infile)
 {
 	int const	fd_infile = open(infile, O_RDONLY);
 
-	process->redirection.fd_in = fd_infile;
 	if (fd_infile < 0)
 		process->spawn_err = FT_EINPUT;
+	else
+		process->redirection.fd_in = fd_infile;
 }
 
 void	process_redirect_to_file(t_process *process, char const *outfile)
 {
 	int const	fd_outfile = open(outfile, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 
-	process->redirection.fd_out = fd_outfile;
 	if (fd_outfile < 0)
 		process->spawn_err = FT_EOUTPUT;
+	else
+		process->redirection.fd_out = fd_outfile;
 }
 
 void	process_redirect_to_file_append(t_process *process,
@@ -70,7 +77,8 @@ void	process_redirect_to_file_append(t_process *process,
 {
 	int const	fd_outfile = open(outfile, O_WRONLY | O_APPEND | O_CREAT, 0644);
 
-	process->redirection.fd_out = fd_outfile;
 	if (fd_outfile < 0)
 		process->spawn_err = FT_EOUTPUT;
+	else
+		process->redirection.fd_out = fd_outfile;
 }

@@ -6,13 +6,12 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 01:22:15 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 07:20:26 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/12 09:17:56 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_parse.h"
 #include "libft_bonus.h"
-#include <errno.h>
 
 #define RET_PARSE_UNDONE		2
 #define RET_PARSE_DONE_ARG		1
@@ -88,6 +87,8 @@ static int	get_argc(char const *command)
 	int			argc;
 	char		find_ret;
 
+	if (command[0] == '\0')
+		return (-1);
 	argc = 0;
 	find_ret = RET_PARSE_UNDONE;
 	while (find_ret == RET_PARSE_UNDONE)
@@ -111,20 +112,19 @@ char	**parse_command(char const *command)
 	char		**argv;
 	int			i;
 
-	if (command[0] == '\0')
-		return (ft_split("", '\0'));
 	argc = get_argc(command);
 	if (argc < 0)
-	{
-		errno = EINVAL;
 		return (ft_split("", '\0'));
-	}
 	argv = ft_calloc(argc + 1, sizeof(char *));
+	if (!argv)
+		return (NULL);
 	i = 0;
 	while (i < argc)
 	{
 		find_next_arg(command, &arg_start, &arg_end);
 		argv[i] = ft_substr(arg_start, 0, arg_end - arg_start);
+		if (!argv[i])
+			return (NULL);
 		command = arg_end + 1;
 		i++;
 	}

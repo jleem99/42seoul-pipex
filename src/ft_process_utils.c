@@ -6,11 +6,12 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 04:37:05 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/11 22:55:51 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/12 08:51:58 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_process.h"
+#include "ft_error.h"
 #include <sys/wait.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -19,18 +20,26 @@ void	process_pipe_stdio(t_process *process)
 {
 	if (process->lpipe.fd_read != -1)
 	{
-		dup2(process->lpipe.fd_read, STDIN_FILENO);
+		if (dup2(process->lpipe.fd_read, STDIN_FILENO) == -1)
+			handle_error(FT_EDUP2);
 		close(process->lpipe.fd_read);
 	}
 	if (process->rpipe.fd_write != -1)
 	{
-		dup2(process->rpipe.fd_write, STDOUT_FILENO);
+		if (dup2(process->rpipe.fd_write, STDOUT_FILENO) == -1)
+			handle_error(FT_EDUP2);
 		close(process->rpipe.fd_write);
 	}
 	if (process->redirection.fd_in != -1)
-		dup2(process->redirection.fd_in, STDIN_FILENO);
+	{
+		if (dup2(process->redirection.fd_in, STDIN_FILENO) == -1)
+			handle_error(FT_EDUP2);
+	}
 	if (process->redirection.fd_out != -1)
-		dup2(process->redirection.fd_out, STDOUT_FILENO);
+	{
+		if (dup2(process->redirection.fd_out, STDOUT_FILENO) == -1)
+			handle_error(FT_EDUP2);
+	}
 }
 
 void	process_close_unused_pipeends(t_process *process)

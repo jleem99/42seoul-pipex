@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 23:45:46 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/10 13:08:29 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/12 08:46:40 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,11 @@ t_pipe_spawner	*make_pipe_spawner(int n_commands, char *const *commands)
 		handle_error(FT_ENOMEM);
 	i = 0;
 	while (i < spawner->n_pipes)
-		pipe(spawner->pipes[i++].fildes);
+	{
+		if (pipe(spawner->pipes[i].fildes) == -1)
+			handle_error(FT_EPIPE);
+		i++;
+	}
 	spawner_pipe_processes(spawner, commands);
 	return (spawner);
 }

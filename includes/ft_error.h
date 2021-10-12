@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 23:41:37 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/11 23:37:48 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/12 08:50:53 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # define FT_EFORK			"fork"
 # define FT_EEXEC			"exec"
 # define FT_EPIPE			"pipe"
+# define FT_EDUP2			"dup2"
 # define FT_ENOMEM			"malloc"
 # define FT_EINPUT			"input"
 # define FT_EOUTPUT			"output"

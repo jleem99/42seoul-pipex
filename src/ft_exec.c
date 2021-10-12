@@ -6,7 +6,7 @@
 /*   By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 19:52:04 by jleem             #+#    #+#             */
-/*   Updated: 2021/10/09 07:29:24 by jleem            ###   ########.fr       */
+/*   Updated: 2021/10/12 09:50:49 by jleem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,16 @@ extern char	**environ;
 
 char	*ft_getenv(const char *name)
 {
-	char *const	search_string = ft_strjoin(name, "=");
-	int const	search_len = ft_strlen(search_string);
-	int			i;
+	size_t const	namelen = ft_strlen(name);
+	char			*var;
+	int				i;
 
 	i = 0;
 	while (environ[i])
 	{
-		if (ft_strncmp(environ[i], search_string, search_len) == 0)
-		{
-			free(search_string);
-			return (environ[i] + search_len);
-		}
+		var = environ[i];
+		if (ft_strncmp(var, name, namelen) == 0 && var[namelen] == '=')
+			return (var + namelen + 1);
 		i++;
 	}
 	return (NULL);
@@ -55,6 +53,8 @@ char	*join_path(char const *s1, char const *s2)
 	char		*joined_path;
 
 	joined_path = malloc(s1_len + s2_len + 2);
+	if (!joined_path)
+		return (NULL);
 	ft_memcpy(joined_path, s1, s1_len);
 	joined_path[s1_len] = '/';
 	ft_memcpy(joined_path + s1_len + 1, s2, s2_len);
@@ -68,10 +68,17 @@ char	*find_file_path(char const *file, int access_mode)
 	char			*file_path;
 	int				i;
 
+	if (!paths)
+		return (NULL);
 	i = 0;
 	while (paths[i])
 	{
 		file_path = join_path(paths[i], file);
+		if (!file_path)
+		{
+			ft_free_split(paths);
+			return (NULL);
+		}
 		if (access(file_path, access_mode) == 0)
 		{
 			ft_free_split(paths);
@@ -93,10 +100,16 @@ int	ft_execvp(const char *file, char *const argv[])
 	else
 		file_path = find_file_path(file, X_OK);
 	if (file_path == NULL)
-		file_path = find_file_path(file, F_OK);
+	{
+		if (errno == ENOMEM)
+			return (-1);
+		else
+			file_path = find_file_path(file, F_OK);
+	}
 	if (file_path == NULL)
 	{
-		errno = ENOENT;
+		if (errno != ENOMEM)
+			errno = ENOENT;
 		return (-1);
 	}
 	return (execve(file_path, argv, environ));
