@@ -6,7 +6,7 @@
 #    By: jleem <jleem@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/28 23:28:03 by jleem             #+#    #+#              #
-#    Updated: 2021/10/11 23:38:09 by jleem            ###   ########.fr        #
+#    Updated: 2021/10/12 10:44:26 by jleem            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,6 @@ CC				?= clang
 WFLAGS			= -Wall -Wextra -Werror
 INCFLAGS		= -I$(INCDIR) -I$(LIBFTDIR) -I$(GNLDIR)
 CFLAGS_			= $(WFLAGS) $(INCFLAGS) $(CFLAGS)
-CFLAGS_			+= '-DPROGRAM_NAME="bash"'
 unexport CFLAGS_
 
 NAME			= pipex
